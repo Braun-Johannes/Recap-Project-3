@@ -1,11 +1,5 @@
 export function CharacterCard(name, status, type, occurrences, url) {
-  // const quelle = "https://rickandmortyapi.com/api/character/avatar/1.jpeg";
-  // const name = "Rick Sanchez";
-  // const status = "alive";
-  // const type = "yes";
-  // const occurrences = "51";
-
-  const filler = document.querySelector('[data-js="filler"]');
+  const cardContainer = document.querySelector('[data-js="card-container"]');
 
   const newCard = document.createElement("ul");
   newCard.classList.add("card-container");
@@ -32,5 +26,5 @@ export function CharacterCard(name, status, type, occurrences, url) {
   </div>
 </li>`;
 
-  filler.append(newCard);
+  cardContainer.append(newCard);
 }
