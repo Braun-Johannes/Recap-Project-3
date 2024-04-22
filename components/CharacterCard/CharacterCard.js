@@ -1,9 +1,9 @@
-export function CharacterCard() {
-  const quelle = "https://rickandmortyapi.com/api/character/avatar/1.jpeg";
-  const name = "Rick Sanchez";
-  const status = "alive";
-  const type = "yes";
-  const occurrences = "51";
+export function CharacterCard(name, status, type, occurrences, url) {
+  // const quelle = "https://rickandmortyapi.com/api/character/avatar/1.jpeg";
+  // const name = "Rick Sanchez";
+  // const status = "alive";
+  // const type = "yes";
+  // const occurrences = "51";
 
   const filler = document.querySelector('[data-js="filler"]');
 
@@ -14,7 +14,7 @@ export function CharacterCard() {
   <div class="card__image-container">
     <img
       class="card__image"
-      src=${quelle}
+      src=${url}
       alt="Rick Sanchez"
     />
     <div class="card__image-gradient"></div>
