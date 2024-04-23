@@ -24,14 +24,12 @@ function renderCharacterCards(characters) {
     CharacterCard(name, status, type, occurrences, image);
   });
 }
+
 async function fetchCharacters(pageIndex, searchQuery) {
   let targetUrl = "https://rickandmortyapi.com/api/character";
 
-  console.log(targetUrl);
-
   if (pageIndex !== null) {
     targetUrl = targetUrl + `?page=${pageIndex}`;
-    console.log(targetUrl);
   }
 
   if (searchQuery !== null) {
@@ -40,54 +38,41 @@ async function fetchCharacters(pageIndex, searchQuery) {
     } else {
       targetUrl = targetUrl + `&name=${searchQuery}`;
     }
-    console.log(targetUrl);
   }
 
   const response = await fetch(targetUrl);
-
   const data = await response.json();
-
-  console.log(data.info.pages);
 
   maxPage = data.info.pages;
   const characters = data.results;
 
-  console.log(characters);
+  pagination.textContent = `${pageIndex}/${maxPage}`;
 
   renderCharacterCards(characters);
 }
 
 fetchCharacters(1, null);
 
+function flipPage(step) {
+  if (page + step > 0 && page + step < maxPage + 1) {
+    fetchCharacters(page + step, searchQuery);
+    page += step;
+  }
+}
+
 prevButton.addEventListener("click", () => {
-  const nextPageIndex = Math.max(page - 1, 1);
-  fetchCharacters(nextPageIndex, searchQuery);
-  page = nextPageIndex;
-  pagination.textContent = page + `/${maxPage}`;
+  flipPage(-1);
 });
 
 nextButton.addEventListener("click", () => {
-  const nextPageIndex = Math.min(page + 1, maxPage);
-  fetchCharacters(nextPageIndex, searchQuery);
-  page = nextPageIndex;
-  pagination.textContent = page + `/${maxPage}`;
+  flipPage(1);
 });
 
-searchBar.addEventListener("submit", () => {
+searchBar.addEventListener("submit", (event) => {
   event.preventDefault();
   const formData = new FormData(event.target);
   const data = Object.fromEntries(formData);
   searchQuery = data.query;
   page = 1;
-
-  if (searchQuery !== "") {
-    fetchCharacters(page, searchQuery);
-    pagination.textContent = `${page}/${maxPage}`;
-
-    console.log(maxPage);
-  } else {
-    searchQuery = "";
-    fetchCharacters(page, searchQuery);
-  }
-  console.log("Query: ", data.query);
+  fetchCharacters(page, searchQuery);
 });
